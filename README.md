@@ -1,5 +1,6 @@
-# CoreUnlocker80000H
+# CapUnlocker
 
-Plugin for PS Vita that allows game mode applications to use system-reserved CPU core (CPU3).
+Unlocks some non-game capabilities for PS Vita homebrew apps. Currently available:
 
-More information here: https://forum.devchroma.nl/index.php/topic,203.0.html
+- Allow mounting some virtual drives like cache0:
+- Allow using 4th core for game applications.
