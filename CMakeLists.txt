@@ -8,7 +8,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-set(PLUGIN_PROJECT CoreUnlocker80000H)
+set(PLUGIN_PROJECT CapUnlocker)
 project(${PLUGIN_PROJECT})
 include("${DOLCESDK}/share/dolce.cmake" REQUIRED)
 
@@ -28,6 +28,6 @@ set_target_properties(${PLUGIN_PROJECT}
   PROPERTIES LINK_FLAGS "-nostdlib"
 )
 
-dolce_create_self(CoreUnlocker80000H.skprx ${PLUGIN_PROJECT}
-  CONFIG ${CMAKE_SOURCE_DIR}/CoreUnlocker80000H.yml
+dolce_create_self(CapUnlocker.skprx ${PLUGIN_PROJECT}
+  CONFIG ${CMAKE_SOURCE_DIR}/CapUnlocker.yml
 )
