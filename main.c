@@ -4,9 +4,10 @@
 
 #include <psp2kern/kernel/modulemgr.h>
 #include <taihen.h>
+#include <stdio.h>
 
-static tai_hook_ref_t hook_ref[3];
-static SceUID hook_id[3];
+static tai_hook_ref_t hook_ref[4];
+static SceUID hook_id[4];
 
 static int isAllowedToMount_patched(int a1)
 {
@@ -22,6 +23,12 @@ static int isAllowedVMFunctions_patched(int a1)
 {
 	return 1;
 }
+
+static int checkAllow_patch(int a1, int *a2, unsigned int a3, int a4)
+{
+    return 1;
+}
+
 
 void _start() __attribute__ ((weak, alias("module_start")));
 int module_start(SceSize argc, const void *args)
@@ -58,6 +65,16 @@ int module_start(SceSize argc, const void *args)
 		0x28764,
 		1,
 		isAllowedVMFunctions_patched);
+    
+    hook_id[3] = taiHookFunctionOffsetForKernel(
+        KERNEL_PID,
+        &hook_ref[3],
+        info.modid,
+        0,
+        0x18b24,
+        1,
+        checkAllow_patch
+    );
 
 	return SCE_KERNEL_START_SUCCESS;
 }
@@ -67,5 +84,6 @@ int module_stop(SceSize argc, const void *args)
 	if(hook_id[0] >= 0) taiHookReleaseForKernel(hook_id[0], hook_ref[0]);
 	if(hook_id[1] >= 0) taiHookReleaseForKernel(hook_id[1], hook_ref[1]);
 	if(hook_id[2] >= 0) taiHookReleaseForKernel(hook_id[2], hook_ref[2]);
+    if(hook_id[3] >= 0) taiHookReleaseForKernel(hook_id[3], hook_ref[3]);
 	return SCE_KERNEL_STOP_SUCCESS;
 }
