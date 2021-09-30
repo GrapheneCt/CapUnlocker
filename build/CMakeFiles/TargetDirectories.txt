@@ -1,0 +1,4 @@
+D:/psp2proj/CapUnlocker/build/CMakeFiles/CapUnlocker.elf.dir
+D:/psp2proj/CapUnlocker/build/CMakeFiles/rebuild_cache.dir
+D:/psp2proj/CapUnlocker/build/CMakeFiles/CapUnlocker.skprx.target.dir
+D:/psp2proj/CapUnlocker/build/CMakeFiles/edit_cache.dir

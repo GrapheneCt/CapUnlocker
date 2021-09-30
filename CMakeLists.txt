@@ -1,33 +1,45 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.19)
 
-if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  if(DEFINED ENV{DOLCESDK})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{DOLCESDK}/share/dolce.toolchain.cmake" CACHE PATH "toolchain file")
-  else()
-    message(FATAL_ERROR "Please define DOLCESDK to point to your SDK path!")
-  endif()
-endif()
+set(CMAKE_TOOLCHAIN_FILE "$ENV{SCE_PSP2_SDK_DIR}/host_tools/build/cmake/psp2-snc-toolchain.cmake")
 
-set(PLUGIN_PROJECT CapUnlocker)
-project(${PLUGIN_PROJECT})
-include("${DOLCESDK}/share/dolce.cmake" REQUIRED)
+project(CapUnlocker)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions")
+include(VitaDevelopmentSuite)
+enable_language(EMD)
+set(CMAKE_C_STANDARD 99)
 
-add_executable(${PLUGIN_PROJECT}
+add_compile_options(
+  -Xdiag=0 -Xquit=2 -O3
+)
+
+add_link_options(
+  --prx-no-runtime-support
+  --strip-unused-data
+  --strip-duplicates
+  --strip-report=strip-report.txt
+)
+
+include_directories(
+  ${VDSUITE_KERNEL_INCLUDE_DIRECTORIES}
+)
+
+link_directories(
+  ${VDSUITE_LIBRARY_DIRECTORIES}
+)
+
+add_library("${PROJECT_NAME}.elf" MODULE
   main.c
+  lib.emd
 )
 
-target_link_libraries(${PLUGIN_PROJECT}
-  taihenForKernel_stub
+target_link_libraries("${PROJECT_NAME}.elf"
+  SceDebugForDriver_stub
+  SceSysmemForDriver_stub
+  SceThreadmgrForDriver_stub
   SceSysclibForDriver_stub
+  SceSysrootForDriver_stub
+  taihenForKernel_stub
+  taihenModuleUtils_stub
 )
 
-set_target_properties(${PLUGIN_PROJECT}
-  PROPERTIES LINK_FLAGS "-nostdlib"
-)
-
-dolce_create_self(CapUnlocker.skprx ${PLUGIN_PROJECT}
-  CONFIG ${CMAKE_SOURCE_DIR}/CapUnlocker.yml
-)
+VDSuiteSignElf("${PROJECT_NAME}.skprx" "${PROJECT_NAME}.elf" COMPRESS ON STRIP ON)

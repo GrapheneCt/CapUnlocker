@@ -1,8 +1,0 @@
-CapUnlocker:
-  attributes: 0
-  version:
-    major: 0
-    minor: 1
-  main:
-    start: module_start
-    stop: module_stop
