@@ -8,16 +8,12 @@
 Strip   Pad
     8     0 <exidx.16> (.ARM.exidx) in D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\libsnc.a(simple_unwind_pr.o)
     8     0 <exidx.8> (.ARM.exidx) in D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\libsnc.a(simple_unwind_pr.o)
-    8     0 <exidx.48> (.ARM.exidx) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
-    8     0 <exidx.40> (.ARM.exidx) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
     8     0 <exidx.32> (.ARM.exidx) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
    30     0 __aeabi_unwind_cpp_pr2 (.text) in D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\libsnc.a(simple_unwind_pr.o)[17]
    30     0 __aeabi_unwind_cpp_pr1 (.text) in D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\libsnc.a(simple_unwind_pr.o)[16]
-    4     0 sceSblACMgrIsSystemProgram_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[14] de-duplicated to isIllegalAffinity_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[11]
-    4     0 sceSblACMgrIsRootProgram_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[13] de-duplicated to isIllegalAffinity_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[11]
-    4     0 isAllowedVMFunctions_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[12] de-duplicated to isAllowedToMount_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[7]
+    4     0 strcmp_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[12] de-duplicated to isIllegalAffinity_patched (.text) in D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o[11]
 
-A total of 112 bytes (12 from de-duplication) can be saved by stripping 10 unused objects.
+A total of 88 bytes (4 from de-duplication) can be saved by stripping 6 unused objects.
 0 padding bytes will be left.
 
 ================================================
@@ -87,6 +83,10 @@ D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
 
 --------
 D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
+..LNst_module_start_2 (.rodata) 
+
+--------
+D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
 ..LNst_module_start_1 (.rodata) 
 
 --------
@@ -108,6 +108,7 @@ D:\psp2proj\CapUnlocker\build\CMakeFiles\CapUnlocker.elf.dir\main.c.o
 module_stop (.text)  requires...
     .Lbss
     taiHookReleaseForKernel [symbol]
+    taiInjectReleaseForKernel [symbol]
     <exidx.8>
 
 --------
@@ -127,10 +128,11 @@ module_start (.text)  requires...
     taiHookFunctionOffsetForKernel [symbol]
     ..LNst_module_start_1
     isIllegalAffinity_patched
-    isAllowedToMount_patched
     isIllegalAffinity_patched
     taiHookFunctionImportForKernel [symbol]
-    isIllegalAffinity_patched
+    sceKernelSysrootGetSystemSwVersion [symbol]
+    ..LNst_module_start_2
+    taiInjectDataForKernel [symbol]
     __stack_chk_fail [symbol]
     <exidx.0>
 
@@ -142,9 +144,14 @@ D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysclibForDriver_stub.a(
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysclibForDriver_stub.a(_SceSysclibForDriver-0001_V00_99eebd1f.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysclibForDriver_stub.a(_SceSysclibForDriver-0001_head.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysclibForDriver_stub.a(_SceSysclibForDriver-0001_NIDS.o)
+D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysrootForDriver_stub.a(_SceSysrootForDriver-0001_F00_67aab627.o)
+D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysrootForDriver_stub.a(_SceSysrootForDriver-0001_head.o)
+D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libSceSysrootForDriver_stub.a(_SceSysrootForDriver-0001_NIDS.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_4519d882.o)
+D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_51bb3ec9.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_6e931197.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_8f319d77.o)
+D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_9fa50038.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_F00_d22678ca.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_head.o)
 D:\PROGRA~1\SCE\PSP2SD~1\3.570\target\lib\vdsuite\libtaihenForKernel_stub.a(_taihenForKernel-0001_NIDS.o)

@@ -18,17 +18,7 @@ static int isIllegalAffinity_patched(int a1, int a2, int a3)
 	return 0;
 }
 
-static int isAllowedVMFunctions_patched(int a1)
-{
-	return 1;
-}
-
-static int sceSblACMgrIsRootProgram_patched(SceUID pid)
-{
-	return 0;
-}
-
-static int sceSblACMgrIsSystemProgram_patched(SceUID pid)
+static int strcmp_patched(const char *str1, const char *str2)
 {
 	return 0;
 }
@@ -60,31 +50,24 @@ int module_start(SceSize argc, const void *args)
 		1,
 		isIllegalAffinity_patched);
 
-	hook_id[2] = taiHookFunctionOffsetForKernel(
+	// We can just return 0 since it is only used in VM cap check functions
+	hook_id[2] = taiHookFunctionImportForKernel(
 		KERNEL_PID,
 		&hook_ref[2],
-		info.modid,
-		0,
-		0x28764,
-		1,
-		isAllowedVMFunctions_patched);
+		"SceKernelThreadMgr",
+		TAI_ANY_LIBRARY,
+		0x0B33BC43,
+		strcmp_patched);
 
 	//Fixing Henkaku sins...
-	hook_id[3] = taiHookFunctionImportForKernel(
-		KERNEL_PID,
-		&hook_ref[3],
-		"SceKernelThreadMgr",
-		TAI_ANY_LIBRARY,
-		0x31C23B66,
-		sceSblACMgrIsRootProgram_patched);
+	int swVer = sceKernelSysrootGetSystemSwVersion();
 
-	hook_id[4] = taiHookFunctionImportForKernel(
-		KERNEL_PID,
-		&hook_ref[4],
-		"SceKernelThreadMgr",
-		TAI_ANY_LIBRARY,
-		0x930CD037,
-		sceSblACMgrIsSystemProgram_patched);
+	if (swVer > 0x03610000) {
+		hook_id[3] = taiInjectDataForKernel(KERNEL_PID, info.modid, 0, 0x628A, "\x0D\xE0", 2);
+	}
+	else {
+		hook_id[3] = taiInjectDataForKernel(KERNEL_PID, info.modid, 0, 0x6222, "\x0D\xE0", 2);
+	}
 
 	return SCE_KERNEL_START_SUCCESS;
 }
@@ -94,7 +77,6 @@ int module_stop(SceSize argc, const void *args)
 	if(hook_id[0] >= 0) taiHookReleaseForKernel(hook_id[0], hook_ref[0]);
 	if(hook_id[1] >= 0) taiHookReleaseForKernel(hook_id[1], hook_ref[1]);
 	if(hook_id[2] >= 0) taiHookReleaseForKernel(hook_id[2], hook_ref[2]);
-	if(hook_id[3] >= 0) taiHookReleaseForKernel(hook_id[3], hook_ref[3]);
-	if(hook_id[4] >= 0) taiHookReleaseForKernel(hook_id[4], hook_ref[4]);
+	if(hook_id[3] >= 0) taiInjectReleaseForKernel(hook_id[3]);
 	return SCE_KERNEL_STOP_SUCCESS;
 }
