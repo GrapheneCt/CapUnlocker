@@ -1,45 +1,30 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_TOOLCHAIN_FILE "$ENV{SCE_PSP2_SDK_DIR}/host_tools/build/cmake/psp2-snc-toolchain.cmake")
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  if(DEFINED ENV{VITASDK})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+  else()
+    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
+  endif()
+endif()
 
-project(CapUnlocker)
+project(CapUnlocker C)
+include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-include(VitaDevelopmentSuite)
-enable_language(EMD)
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -Wextra -Wno-unused-parameter -O2 -nostdlib -fno-builtin")
 
-add_compile_options(
-  -Xdiag=0 -Xquit=2 -O3
-)
-
-add_link_options(
-  --prx-no-runtime-support
-  --strip-unused-data
-  --strip-duplicates
-  --strip-report=strip-report.txt
-)
-
-include_directories(
-  ${VDSUITE_KERNEL_INCLUDE_DIRECTORIES}
-)
-
-link_directories(
-  ${VDSUITE_LIBRARY_DIRECTORIES}
-)
-
-add_library("${PROJECT_NAME}.elf" MODULE
+add_executable(CapUnlocker
   main.c
-  lib.emd
+  capu_logic.c
 )
 
-target_link_libraries("${PROJECT_NAME}.elf"
-  SceDebugForDriver_stub
-  SceSysmemForDriver_stub
-  SceThreadmgrForDriver_stub
-  SceSysclibForDriver_stub
-  SceSysrootForDriver_stub
+target_link_libraries(CapUnlocker
   taihenForKernel_stub
   taihenModuleUtils_stub
+  SceDebugForDriver_stub
+  SceIofilemgrForDriver_stub
+  SceSysclibForDriver_stub
+  SceSysrootForDriver_stub
 )
 
-VDSuiteSignElf("${PROJECT_NAME}.skprx" "${PROJECT_NAME}.elf" COMPRESS ON STRIP ON)
+vita_create_self(CapUnlocker.skprx CapUnlocker CONFIG exports.yml UNSAFE)

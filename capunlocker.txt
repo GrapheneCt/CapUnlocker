@@ -1,0 +1,18 @@
+# CapUnlocker settings. Copy to ux0:tai/capunlocker.txt or ur0:tai/capunlocker.txt
+# (ux0:tai is read first, like taiHEN's config.txt). Reboot after editing.
+# Without this file every unlock is enabled. 1/0, on/off, yes/no, true/false.
+
+# Allow apps to mount virtual drives such as cache0: (SceAppMgr)
+mount = 1
+
+# Allow apps to put threads on the 4th CPU core (SceKernelThreadMgr)
+core = 1
+
+# Allow the ForVM / ForMono thread functions (SceKernelThreadMgr)
+vm = 1
+
+# Allow every thread attribute (SceKernelThreadMgr)
+thread_attr = 1
+
+# Write what was patched to ur0:data/capunlocker_log.txt at every boot
+log = 1

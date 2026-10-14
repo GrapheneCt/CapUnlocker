@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests (config parser, patch checks)
+        run: make -C tests
+
+  plugin:
+    runs-on: ubuntu-24.04
+    container: vitasdk/vitasdk:2026.08
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build CapUnlocker.skprx
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CapUnlocker
+          path: |
+            build/CapUnlocker.skprx
+            capunlocker.txt
